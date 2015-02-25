@@ -7,39 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B7CA59C1A9E64CD006A477A /* MKInputBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD182F91A9E590D00072421 /* MKInputBoxView.m */; };
 		5BD182D41A9E555700072421 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD182D31A9E555700072421 /* main.m */; };
 		5BD182D71A9E555700072421 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD182D61A9E555700072421 /* AppDelegate.m */; };
 		5BD182DA1A9E555700072421 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD182D91A9E555700072421 /* ViewController.m */; };
 		5BD182DD1A9E555700072421 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5BD182DB1A9E555700072421 /* Main.storyboard */; };
 		5BD182DF1A9E555700072421 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5BD182DE1A9E555700072421 /* Images.xcassets */; };
 		5BD182E21A9E555700072421 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5BD182E01A9E555700072421 /* LaunchScreen.xib */; };
-		5BD182EE1A9E555700072421 /* MKInputBoxViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD182ED1A9E555700072421 /* MKInputBoxViewTests.m */; };
+		5BD182FA1A9E590D00072421 /* MKInputBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD182F91A9E590D00072421 /* MKInputBoxView.m */; };
+		5BD183261A9E62C700072421 /* MKInputBoxViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 5BD182ED1A9E555700072421 /* MKInputBoxViewTests.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		5BD182E81A9E555700072421 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5BD182C61A9E555700072421 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5BD182CD1A9E555700072421;
-			remoteInfo = MKInputBoxView;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		5BD182CE1A9E555700072421 /* MKInputBoxView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MKInputBoxView.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BD182D21A9E555700072421 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5BD182D31A9E555700072421 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		5BD182D51A9E555700072421 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		5BD182D61A9E555700072421 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		5BD182D81A9E555700072421 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		5BD182D91A9E555700072421 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		5BD182CE1A9E555700072421 /* MKInputBoxViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MKInputBoxViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BD182D21A9E555700072421 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../MKInputBoxViewExample/Info.plist; sourceTree = "<group>"; };
+		5BD182D31A9E555700072421 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../MKInputBoxViewExample/main.m; sourceTree = "<group>"; };
+		5BD182D51A9E555700072421 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../MKInputBoxViewExample/AppDelegate.h; sourceTree = "<group>"; };
+		5BD182D61A9E555700072421 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../MKInputBoxViewExample/AppDelegate.m; sourceTree = "<group>"; };
+		5BD182D81A9E555700072421 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ../MKInputBoxViewExample/ViewController.h; sourceTree = "<group>"; };
+		5BD182D91A9E555700072421 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ../MKInputBoxViewExample/ViewController.m; sourceTree = "<group>"; };
 		5BD182DC1A9E555700072421 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		5BD182DE1A9E555700072421 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		5BD182DE1A9E555700072421 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../MKInputBoxViewExample/Images.xcassets; sourceTree = "<group>"; };
 		5BD182E11A9E555700072421 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		5BD182E71A9E555700072421 /* MKInputBoxViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MKInputBoxViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BD182EC1A9E555700072421 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5BD182ED1A9E555700072421 /* MKInputBoxViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MKInputBoxViewTests.m; sourceTree = "<group>"; };
+		5BD182F81A9E590D00072421 /* MKInputBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKInputBoxView.h; sourceTree = "<group>"; };
+		5BD182F91A9E590D00072421 /* MKInputBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKInputBoxView.m; sourceTree = "<group>"; };
+		5BD182FB1A9E593A00072421 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		5BD182FC1A9E593A00072421 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		5BD1831D1A9E5D7700072421 /* MKInputBoxViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MKInputBoxViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,7 +46,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5BD182E41A9E555700072421 /* Frameworks */ = {
+		5BD1831A1A9E5D7700072421 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -63,22 +59,25 @@
 		5BD182C51A9E555700072421 = {
 			isa = PBXGroup;
 			children = (
-				5BD182D01A9E555700072421 /* MKInputBoxView */,
+				5BD182F71A9E590D00072421 /* MKInputBoxView */,
+				5BD182D01A9E555700072421 /* MKInputBoxViewExample */,
 				5BD182EA1A9E555700072421 /* MKInputBoxViewTests */,
 				5BD182CF1A9E555700072421 /* Products */,
+				5BD182FB1A9E593A00072421 /* LICENSE */,
+				5BD182FC1A9E593A00072421 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
 		5BD182CF1A9E555700072421 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5BD182CE1A9E555700072421 /* MKInputBoxView.app */,
-				5BD182E71A9E555700072421 /* MKInputBoxViewTests.xctest */,
+				5BD182CE1A9E555700072421 /* MKInputBoxViewExample.app */,
+				5BD1831D1A9E5D7700072421 /* MKInputBoxViewTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5BD182D01A9E555700072421 /* MKInputBoxView */ = {
+		5BD182D01A9E555700072421 /* MKInputBoxViewExample */ = {
 			isa = PBXGroup;
 			children = (
 				5BD182D51A9E555700072421 /* AppDelegate.h */,
@@ -90,6 +89,7 @@
 				5BD182E01A9E555700072421 /* LaunchScreen.xib */,
 				5BD182D11A9E555700072421 /* Supporting Files */,
 			);
+			name = MKInputBoxViewExample;
 			path = MKInputBoxView;
 			sourceTree = "<group>";
 		};
@@ -119,12 +119,21 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		5BD182F71A9E590D00072421 /* MKInputBoxView */ = {
+			isa = PBXGroup;
+			children = (
+				5BD182F81A9E590D00072421 /* MKInputBoxView.h */,
+				5BD182F91A9E590D00072421 /* MKInputBoxView.m */,
+			);
+			path = MKInputBoxView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5BD182CD1A9E555700072421 /* MKInputBoxView */ = {
+		5BD182CD1A9E555700072421 /* MKInputBoxViewExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5BD182F11A9E555700072421 /* Build configuration list for PBXNativeTarget "MKInputBoxView" */;
+			buildConfigurationList = 5BD182F11A9E555700072421 /* Build configuration list for PBXNativeTarget "MKInputBoxViewExample" */;
 			buildPhases = (
 				5BD182CA1A9E555700072421 /* Sources */,
 				5BD182CB1A9E555700072421 /* Frameworks */,
@@ -134,27 +143,26 @@
 			);
 			dependencies = (
 			);
-			name = MKInputBoxView;
+			name = MKInputBoxViewExample;
 			productName = MKInputBoxView;
-			productReference = 5BD182CE1A9E555700072421 /* MKInputBoxView.app */;
+			productReference = 5BD182CE1A9E555700072421 /* MKInputBoxViewExample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5BD182E61A9E555700072421 /* MKInputBoxViewTests */ = {
+		5BD1831C1A9E5D7700072421 /* MKInputBoxViewTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5BD182F41A9E555700072421 /* Build configuration list for PBXNativeTarget "MKInputBoxViewTests" */;
+			buildConfigurationList = 5BD183231A9E5D7800072421 /* Build configuration list for PBXNativeTarget "MKInputBoxViewTests" */;
 			buildPhases = (
-				5BD182E31A9E555700072421 /* Sources */,
-				5BD182E41A9E555700072421 /* Frameworks */,
-				5BD182E51A9E555700072421 /* Resources */,
+				5BD183191A9E5D7700072421 /* Sources */,
+				5BD1831A1A9E5D7700072421 /* Frameworks */,
+				5BD1831B1A9E5D7700072421 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				5BD182E91A9E555700072421 /* PBXTargetDependency */,
 			);
 			name = MKInputBoxViewTests;
 			productName = MKInputBoxViewTests;
-			productReference = 5BD182E71A9E555700072421 /* MKInputBoxViewTests.xctest */;
+			productReference = 5BD1831D1A9E5D7700072421 /* MKInputBoxViewTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -169,9 +177,8 @@
 					5BD182CD1A9E555700072421 = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
-					5BD182E61A9E555700072421 = {
+					5BD1831C1A9E5D7700072421 = {
 						CreatedOnToolsVersion = 6.1.1;
-						TestTargetID = 5BD182CD1A9E555700072421;
 					};
 				};
 			};
@@ -188,8 +195,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5BD182CD1A9E555700072421 /* MKInputBoxView */,
-				5BD182E61A9E555700072421 /* MKInputBoxViewTests */,
+				5BD182CD1A9E555700072421 /* MKInputBoxViewExample */,
+				5BD1831C1A9E5D7700072421 /* MKInputBoxViewTests */,
 			);
 		};
 /* End PBXProject section */
@@ -205,7 +212,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5BD182E51A9E555700072421 /* Resources */ = {
+		5BD1831B1A9E5D7700072421 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -222,26 +229,20 @@
 				5BD182DA1A9E555700072421 /* ViewController.m in Sources */,
 				5BD182D71A9E555700072421 /* AppDelegate.m in Sources */,
 				5BD182D41A9E555700072421 /* main.m in Sources */,
+				5BD182FA1A9E590D00072421 /* MKInputBoxView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5BD182E31A9E555700072421 /* Sources */ = {
+		5BD183191A9E5D7700072421 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5BD182EE1A9E555700072421 /* MKInputBoxViewTests.m in Sources */,
+				5BD183261A9E62C700072421 /* MKInputBoxViewTests.m in Sources */,
+				5B7CA59C1A9E64CD006A477A /* MKInputBoxView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5BD182E91A9E555700072421 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5BD182CD1A9E555700072421 /* MKInputBoxView */;
-			targetProxy = 5BD182E81A9E555700072421 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		5BD182DB1A9E555700072421 /* Main.storyboard */ = {
@@ -250,6 +251,7 @@
 				5BD182DC1A9E555700072421 /* Base */,
 			);
 			name = Main.storyboard;
+			path = ../MKInputBoxViewExample;
 			sourceTree = "<group>";
 		};
 		5BD182E01A9E555700072421 /* LaunchScreen.xib */ = {
@@ -258,6 +260,7 @@
 				5BD182E11A9E555700072421 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			path = ../MKInputBoxViewExample;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -345,7 +348,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = MKInputBoxView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/MKInputBoxViewExample/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -355,16 +359,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = MKInputBoxView/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/MKInputBoxViewExample/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
-		5BD182F51A9E555700072421 /* Debug */ = {
+		5BD183241A9E5D7800072421 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -376,14 +380,12 @@
 				INFOPLIST_FILE = MKInputBoxViewTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MKInputBoxView.app/MKInputBoxView";
 			};
 			name = Debug;
 		};
-		5BD182F61A9E555700072421 /* Release */ = {
+		5BD183251A9E5D7800072421 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -391,7 +393,6 @@
 				INFOPLIST_FILE = MKInputBoxViewTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MKInputBoxView.app/MKInputBoxView";
 			};
 			name = Release;
 		};
@@ -407,21 +408,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5BD182F11A9E555700072421 /* Build configuration list for PBXNativeTarget "MKInputBoxView" */ = {
+		5BD182F11A9E555700072421 /* Build configuration list for PBXNativeTarget "MKInputBoxViewExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5BD182F21A9E555700072421 /* Debug */,
 				5BD182F31A9E555700072421 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		5BD182F41A9E555700072421 /* Build configuration list for PBXNativeTarget "MKInputBoxViewTests" */ = {
+		5BD183231A9E5D7800072421 /* Build configuration list for PBXNativeTarget "MKInputBoxViewTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5BD182F51A9E555700072421 /* Debug */,
-				5BD182F61A9E555700072421 /* Release */,
+				5BD183241A9E5D7800072421 /* Debug */,
+				5BD183251A9E5D7800072421 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

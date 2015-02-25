@@ -8,33 +8,73 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "MKInputBoxView.h"
 
-@interface MKInputBoxViewTests : XCTestCase
 
+@interface MKInputViewTests : XCTestCase
 @end
 
-@implementation MKInputBoxViewTests
+@implementation MKInputViewTests
 
-- (void)setUp {
+- (void)setUp
+{
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
-- (void)tearDown {
+- (void)tearDown
+{
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+/*
+ - (void)testExample 
+ {
+ // This is an example of a functional test case.
+ XCTAssert(YES, @"Pass");
+ }
+ */
+
+- (void)testNumbersOfDecimal
+{
+    NSString *inputString       = @"12000";
+    NSString *expectedString    = @"1.2000";
+    int numberOfDecimalsToCheck = 4;
+
+    // init box
+    MKInputBoxView *testBox = [MKInputBoxView boxWithStyle:NumberInput];
+    [testBox setNumberOfDecimals:numberOfDecimalsToCheck];
+
+    // pre-fill textField
+    testBox.customiseInputElement = ^(UITextField *textField) {
+        textField.text = inputString;
+        return textField;
+    };
+
+    // hook callbacks (and test)
+    testBox.onSubmit = ^(NSString *value1, NSString *value2) {
+        NSLog(@"%@", value1);
+        XCTAssert([value1 isEqualToString:expectedString], @"Pass");
+    };
+
+    // show the box
+    [testBox show];
+
+    // simulate input to get logic triggered
+    [testBox textInputDidChange];
+
+    // simulate touching submit button
+    [testBox submitButtonTapped];
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
 
+/*
+ - (void)testPerformanceExample 
+ {
+ // This is an example of a performance test case.
+ [self measureBlock:^{
+ }];
+ }
+ */
 @end
