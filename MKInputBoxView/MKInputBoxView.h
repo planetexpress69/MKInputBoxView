@@ -8,33 +8,137 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, MKInputBoxStyle) {
+/** These constants determine the style of the view.
+ *
+ */
+typedef NS_ENUM(NSInteger, MKInputBoxType) {
+    /** An input view that contains just one text field
+     * to receive plain text.
+     */
     PlainTextInput,
+
+    /** An input view that contains just one text field
+     * to receive numbers.
+     */
     NumberInput,
+
+    /** An input view that contains just one text field
+     * to receive phone numbers.
+     */
     PhoneNumberInput,
+
+    /** An input view that contains just one text field
+     * to receive an email address.
+     */
     EmailInput,
+
+    /** An input view that contains just one text field
+     * to receive secure text.
+     */
     SecureTextInput,
-    LoginAndPasswordInput,
-    DatePickerInput,
-    PickerInput
+
+    /** An input view that contains two text field
+     * to receive plain text for an username and secure text for a password.
+     */
+    LoginAndPasswordInput
 };
 
+
+/** The `MKInputBoxView` is a simple class to replace the UIAlertView with 
+ * having input fields.
+ * It is highly customizable and features one or two text fields to receive 
+ * user input.
+ * Instead of talking to a delegate, it's block-based.
+ *
+ * @warning It's not ready yet...
+ */
 @interface MKInputBoxView : UIView
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
-+ (MKInputBoxView *)boxWithStyle:(MKInputBoxStyle)style;
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/**-----------------------------------------------------------------------------
+ * @name Create an instance of MKInputBoxView
+ * -----------------------------------------------------------------------------
+ */
+
+/** Returns an `MKInputBoxView` instance.
+ *
+ * @return The shared `MRBrew` instance.
+ */
++ (instancetype)boxOfType:(MKInputBoxType)boxType;
+
+/**-----------------------------------------------------------------------------
+ * @name Customization of the box.
+ * -----------------------------------------------------------------------------
+ */
+
+/** Sets the blurEffect style.
+ *
+ * @param blurEffectStyle from enum UIBlurEffectStyle.
+ *
+ */
 - (void)setBlurEffectStyle:(UIBlurEffectStyle)blurEffectStyle;
+
+/** Sets the title of the box.
+ *
+ * @param title The title of the box.
+ *
+ */
 - (void)setTitle:(NSString *)title;
+
+/** Sets the message of the box.
+ *
+ * @param title The message of the box. Up to three lines, centered.
+ *
+ */
 - (void)setMessage:(NSString *)message;
+
+/** Sets the title of the box.
+ *
+ * @param numberOfDecimals The optional number of decimals when using the
+ * `NumberInput` style.
+ *
+ */
 - (void)setNumberOfDecimals:(int)numberOfDecimals;
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
-- (void)show;                                                                           
+
+/**-----------------------------------------------------------------------------
+ * @name Showing/hiding the box.
+ * -----------------------------------------------------------------------------
+ */
+
+/** Shows the box.
+ *
+ * Simply brings up the box.
+ */
+- (void)show;
+
+/** Hides the box.
+ *
+ * Hides the box (actually this doesn't needs to be exposed to the public, huh?)
+ */
 - (void)hide;
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
-@property (nonatomic, copy) void(^onSubmit)(NSString *, NSString *);                // block to handle submit
-@property (nonatomic, copy) void(^onCancel)(void);                                  // block to handle cancel
-@property (nonatomic, copy) UITextField *(^customiseInputElement)(UITextField *);   // block to modify the textfield conveniently
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
-- (void)submitButtonTapped; // just exposed for testing...
-- (void)textInputDidChange; // just exposed for testing...
+
+/**-----------------------------------------------------------------------------
+ * @name Blocks to handle button actions.
+ * -----------------------------------------------------------------------------
+ */
+
+/** Gets the string(s) out of the form.
+ *
+ * @return valueOne The string as entered in the upper textfield.
+ * @return valueTwo The string as entered in the lower textfield. Nil if box
+ * wasn't in `LoginAndPasswordInput` style.
+ *
+ */
+@property (nonatomic, copy) void(^onSubmit)(NSString *, NSString *);
+
+/** Block being called if the cancel button got touched.
+ *
+ */
+@property (nonatomic, copy) void(^onCancel)(void);
+
+/**-----------------------------------------------------------------------------
+ * @name Block to expose the text field(s) for customisation.
+ * -----------------------------------------------------------------------------
+ */
+@property (nonatomic, copy) UITextField *(^customise)(UITextField *);
+
 @end

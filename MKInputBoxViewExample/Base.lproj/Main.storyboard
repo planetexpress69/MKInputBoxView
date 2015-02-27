@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14D72i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14D87h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
@@ -20,9 +20,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sy6-Uw-alt">
-                                <rect key="frame" x="270" y="285" width="60" height="30"/>
+                                <rect key="frame" x="16" y="550" width="60" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="dpb-eD-t8R"/>
+                                    <constraint firstAttribute="width" constant="60" id="GWk-OP-AXz"/>
                                 </constraints>
                                 <state key="normal" title="Show">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -34,12 +34,12 @@
                             </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="Sy6-Uw-alt" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="0n1-TO-a73"/>
-                            <constraint firstItem="9FB-8G-nhG" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="2b7-uk-nRQ"/>
-                            <constraint firstItem="Sy6-Uw-alt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XV7-1Q-Ew4"/>
-                            <constraint firstItem="9FB-8G-nhG" firstAttribute="centerY" secondItem="Sy6-Uw-alt" secondAttribute="centerY" id="ZnN-J0-RRW"/>
-                            <constraint firstItem="9FB-8G-nhG" firstAttribute="centerX" secondItem="Sy6-Uw-alt" secondAttribute="centerX" id="kI7-zG-8Oa"/>
-                            <constraint firstItem="9FB-8G-nhG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="lWu-3g-jFD"/>
+                            <constraint firstItem="9FB-8G-nhG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="NeT-As-6qB"/>
+                            <constraint firstItem="9FB-8G-nhG" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Nwx-NB-NQc"/>
+                            <constraint firstItem="Sy6-Uw-alt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="d6X-BZ-WWD"/>
+                            <constraint firstAttribute="trailing" secondItem="9FB-8G-nhG" secondAttribute="trailing" id="lhr-ud-Ogf"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Sy6-Uw-alt" secondAttribute="bottom" constant="20" id="mTu-yZ-wOv"/>
+                            <constraint firstItem="9FB-8G-nhG" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="nbB-FG-RLT"/>
                         </constraints>
                     </view>
                 </viewController>

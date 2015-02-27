@@ -10,6 +10,13 @@
 #import <XCTest/XCTest.h>
 #import "MKInputBoxView.h"
 
+@interface MKInputBoxView (Test)
+// a category to tell the test about some methods
+// that aren't exposed to the public
+- (void)submitButtonTapped;
+- (void)textInputDidChange;
+@end
+
 
 @interface MKInputViewTests : XCTestCase
 @end
@@ -47,7 +54,7 @@
     [testBox setNumberOfDecimals:numberOfDecimalsToCheck];
 
     // pre-fill textField
-    testBox.customiseInputElement = ^(UITextField *textField) {
+    testBox.customise = ^(UITextField *textField) {
         textField.text = inputString;
         return textField;
     };

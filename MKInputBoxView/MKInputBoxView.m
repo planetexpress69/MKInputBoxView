@@ -9,58 +9,86 @@
 #import "MKInputBoxView.h"
 
 @interface MKInputBoxView ()
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 @property (nonatomic, copy)     NSString            *title;
 @property (nonatomic, copy)     NSString            *message;
 @property (nonatomic, copy)     NSString            *submitButtonText;
 @property (nonatomic, copy)     NSString            *cancelButtonText;
-@property (nonatomic, assign)   MKInputBoxStyle     style;
+@property (nonatomic, assign)   MKInputBoxType      boxType;
 @property (nonatomic, assign)   int                 numberOfDecimals;
-@property (nonatomic, strong)   NSMutableArray      *elements;
 @property (nonatomic, assign)   UIBlurEffectStyle   blurEffectStyle;
+@property (nonatomic, strong)   NSMutableArray      *elements;
 @property (nonatomic, strong)   UIVisualEffectView  *visualEffectView;
 @property (nonatomic, strong)   UITextField         *textInput;
 @property (nonatomic, strong)   UITextField         *secureInput;
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+@property (nonatomic, strong)   UIView              *actualBox;
+// -----------------------------------------------------------------------------
 @end
 
 
 @implementation MKInputBoxView
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
-#pragma mark - Init & lifecycle
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
-+ (MKInputBoxView *)boxWithStyle:(MKInputBoxStyle)style
+/**-----------------------------------------------------------------------------
+ * @name Designated initializer
+ * -----------------------------------------------------------------------------
+ */
++ (instancetype)boxOfType:(MKInputBoxType)boxType
+{
+    return [[self alloc]initWithBoxType:boxType];
+}
+
+/**-----------------------------------------------------------------------------
+ * @name Initializer
+ * -----------------------------------------------------------------------------
+ */
+- (instancetype)init
+{
+    return [self initWithBoxType:PlainTextInput];
+}
+
+/**-----------------------------------------------------------------------------
+ * @name Designated initializer
+ * -----------------------------------------------------------------------------
+ */
+- (instancetype)initWithBoxType:(MKInputBoxType)boxType
 {
     UIWindow *window = [UIApplication sharedApplication].windows[0];
+    CGRect allFrame = window.frame;
+
     CGRect boxFrame = CGRectMake(0,0, MIN(325, window.frame.size.width - 50), 210);
-    MKInputBoxView *inputBox = [[MKInputBoxView alloc]initWithFrame:boxFrame];
-    inputBox.center = CGPointMake(window.center.x, window.center.y - 30);
-    inputBox.style = style;
-    return inputBox;
+    if ((self = [super initWithFrame:allFrame])) {
+        self.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.0];
+        self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleHeight;
+        self.actualBox = [[UIView alloc] initWithFrame:boxFrame];
+        self.actualBox.center = CGPointMake(window.center.x, window.center.y);
+        self.center = CGPointMake(window.center.x, window.center.y);
+        [self addSubview:self.actualBox];
+        self.boxType = boxType;
+    }
+    return self;
 }
 
 
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 #pragma mark - Setters for box' properties.
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 - (void)setBlurEffectStyle:(UIBlurEffectStyle)blurEffectStyle
 {
     _blurEffectStyle = blurEffectStyle;
 }
 
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 - (void)setTitle:(NSString *)title
 {
     _title = title;
 }
 
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 - (void)setMessage:(NSString *)message
 {
     _message = message;
 }
 
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 - (void)setNumberOfDecimals:(int)numberOfDecimals
 {
     _numberOfDecimals = numberOfDecimals;
@@ -69,9 +97,9 @@
 
 
 
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 #pragma mark - Show & hide
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 -(void)show
 {
     self.alpha = 0.0f;
@@ -89,18 +117,25 @@
     // Start firing orientation notifications
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+
     // Register for device orientation changes
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(deviceOrientationDidChange)
-                                                 name:@"UIDeviceOrientationDidChangeNotification"
-                                               object:nil];
+    [center addObserver:self
+               selector:@selector(deviceOrientationDidChange)
+                   name:@"UIDeviceOrientationDidChangeNotification"
+                 object:nil];
 
     // Register for keyboard events
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:@"UIKeyboardDidShowNotification" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:@"UIKeyboardDidHideNotification" object:nil];
+    [center addObserver:self
+               selector:@selector(keyboardDidShow:)
+                   name:@"UIKeyboardDidShowNotification" object:nil];
+
+    [center addObserver:self
+               selector:@selector(keyboardDidHide:)
+                   name:@"UIKeyboardDidHideNotification" object:nil];
 }
 
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 - (void)hide
 {
     [UIView animateWithDuration:0.3f animations:^{
@@ -110,58 +145,93 @@
         // Stop firing device orientation notifications
         [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+
+
         // Remove from those notifications
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+        [center removeObserver:self
+                          name:@"UIDeviceOrientationDidChangeNotification"
+                        object:nil];
 
         // Remove from listening to keyboard notifications
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIKeyboardDidShowNotification" object:nil];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIKeyboardDidHideNotification" object:nil];
+        [center removeObserver:self
+                          name:@"UIKeyboardDidShowNotification" object:nil];
+        [center removeObserver:self
+                          name:@"UIKeyboardDidHideNotification" object:nil];
     }];
 }
 
 
 
 
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 #pragma mark - Sets up the box.
-// -------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 - (void)setupView
 {
     self.elements = [NSMutableArray new];
 
-    self.layer.cornerRadius     = 4.0;
-    self.layer.masksToBounds    = true;
+    self.actualBox.layer.cornerRadius     = 4.0;
+    self.actualBox.layer.masksToBounds    = true;
 
-    UIVisualEffect *effect      = [UIBlurEffect effectWithStyle:self.blurEffectStyle ? self.blurEffectStyle : UIBlurEffectStyleLight];
-    self.visualEffectView       = [[UIVisualEffectView alloc]initWithEffect:effect];
 
-    CGFloat padding             = 20.0f;
-    CGFloat width               = self.frame.size.width - padding * 2;
+    UIColor *titleLabelTextColor = nil;
+    UIColor *messageLabelTextColor = nil;
+    UIColor *elementBackgroundColor = nil;
+    UIColor *buttonBackgroundColor = nil;
 
-    UILabel *titleLabel         = [[UILabel alloc]initWithFrame:CGRectMake(padding, padding, width, 20)];
-    titleLabel.font             = [UIFont boldSystemFontOfSize:18.0f];
-    titleLabel.text             = self.title;
-    titleLabel.textAlignment    = NSTextAlignmentCenter;
-    titleLabel.textColor        = self.blurEffectStyle == UIBlurEffectStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
+    UIBlurEffectStyle style = UIBlurEffectStyleLight;
+    if (self.blurEffectStyle) {
+        style = self.blurEffectStyle;
+    }
+
+    switch (style) {
+        case UIBlurEffectStyleDark:
+            titleLabelTextColor = [UIColor whiteColor];
+            messageLabelTextColor = [UIColor whiteColor];
+            elementBackgroundColor = [UIColor colorWithWhite:1.0f alpha: 0.07f];
+            buttonBackgroundColor = [UIColor colorWithWhite:1.0f alpha: 0.07f];
+            break;
+        default:
+            titleLabelTextColor = [UIColor blackColor];
+            messageLabelTextColor = [UIColor blackColor];
+            elementBackgroundColor = [UIColor colorWithWhite:1.0f alpha: 0.50f];
+            buttonBackgroundColor = [UIColor colorWithWhite:1.0f alpha: 0.2f];
+            break;
+    }
+
+    UIVisualEffect *effect  = [UIBlurEffect effectWithStyle:style];
+    self.visualEffectView   = [[UIVisualEffectView alloc]initWithEffect:effect];
+
+    CGFloat padding         = 20.0f;
+    CGFloat width           = self.actualBox.frame.size.width - padding * 2;
+
+    UILabel *titleLabel     = [[UILabel alloc] initWithFrame:
+                                   CGRectMake(padding, padding, width, 20)];
+    titleLabel.font         = [UIFont boldSystemFontOfSize:18.0f];
+    titleLabel.text         = self.title;
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.textColor = titleLabelTextColor;
     [self.visualEffectView.contentView addSubview:titleLabel];
 
-    UILabel *messageLabel       = [[UILabel alloc]initWithFrame:CGRectMake(padding, padding + titleLabel.frame.size.height + 10, width, 20)];
+    UILabel *messageLabel   = [[UILabel alloc]initWithFrame:
+                               CGRectMake(padding, padding + titleLabel.frame.size.height + 10, width, 20)];
     messageLabel.numberOfLines  = 4;
-    messageLabel.font           = [UIFont systemFontOfSize:14.0f];
-    messageLabel.text           = self.message;
+    messageLabel.font       = [UIFont systemFontOfSize:14.0f];
+    messageLabel.text       = self.message;
     messageLabel.textAlignment  = NSTextAlignmentCenter;
-    messageLabel.textColor      = self.blurEffectStyle == UIBlurEffectStyleDark ? [UIColor whiteColor] : [UIColor blackColor];
+    messageLabel.textColor  = messageLabelTextColor;
     [messageLabel sizeToFit];
     [self.visualEffectView.contentView addSubview:messageLabel];
 
-    switch (self.style) {
+    switch (self.boxType) {
 
         case PlainTextInput:
             self.textInput = [[UITextField alloc]initWithFrame:
                               CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
-            if (self.customiseInputElement) {
-                self.textInput = self.customiseInputElement(self.textInput);
+            if (self.customise) {
+                self.textInput = self.customise(self.textInput);
             }
             [self.elements addObject:self.textInput];
             break;
@@ -171,8 +241,8 @@
             self.textInput = [[UITextField alloc] initWithFrame:
                               CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
-            if (self.customiseInputElement) {
-                self.textInput = self.customiseInputElement(self.textInput);
+            if (self.customise) {
+                self.textInput = self.customise(self.textInput);
             }
             [self.elements addObject:self.textInput];
             self.textInput.keyboardType = UIKeyboardTypeNumberPad;
@@ -184,8 +254,8 @@
             self.textInput = [[UITextField alloc] initWithFrame:
                               CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
-            if (self.customiseInputElement) {
-                self.textInput = self.textInput = self.customiseInputElement(self.textInput);
+            if (self.customise) {
+                self.textInput = self.textInput = self.customise(self.textInput);
             }
             [self.elements addObject:self.textInput];
             self.textInput.keyboardType = UIKeyboardTypeEmailAddress;
@@ -196,8 +266,8 @@
             self.textInput = [[UITextField alloc] initWithFrame:
                               CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
-            if (self.customiseInputElement) {
-                self.textInput = self.customiseInputElement(self.textInput);
+            if (self.customise) {
+                self.textInput = self.customise(self.textInput);
             }
             [self.elements addObject:self.textInput];
             break;
@@ -207,8 +277,8 @@
             self.textInput = [[UITextField alloc] initWithFrame:
                               CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
-            if (self.customiseInputElement) {
-                self.textInput = self.customiseInputElement(self.textInput);
+            if (self.customise) {
+                self.textInput = self.customise(self.textInput);
             }
             [self.elements addObject:self.textInput];
             self.textInput.keyboardType = UIKeyboardTypePhonePad;
@@ -221,8 +291,8 @@
                               CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
 
-            if (self.customiseInputElement) {
-                self.textInput = self.customiseInputElement(self.textInput);
+            if (self.customise) {
+                self.textInput = self.customise(self.textInput);
             }
 
             [self.elements addObject:self.textInput];
@@ -232,15 +302,16 @@
             self.secureInput.textAlignment = NSTextAlignmentCenter;
             self.secureInput.secureTextEntry = YES;
 
-            if (self.customiseInputElement) {
-                self.secureInput = self.customiseInputElement(self.secureInput);
+            if (self.customise) {
+                self.secureInput = self.customise(self.secureInput);
             }
 
             [self.elements addObject:self.secureInput];
 
-            CGRect extendedFrame = self.frame;
+            // adjust height!
+            CGRect extendedFrame = self.actualBox.frame;
             extendedFrame.size.height += 45;
-            self.frame = extendedFrame;
+            self.actualBox.frame = extendedFrame;
             break;
 
         default:
@@ -249,42 +320,40 @@
     }
 
     for (UITextField *element in self.elements) {
+
         element.layer.borderColor   = [UIColor colorWithWhite:0.0f alpha:0.1f].CGColor;
         element.layer.borderWidth   = 0.5;
-        element.backgroundColor     = self.blurEffectStyle == UIBlurEffectStyleDark ? [UIColor colorWithWhite:1.0f alpha: 0.07f] :
-        [UIColor colorWithWhite:1.0f alpha: 0.5f];
+        element.backgroundColor     = elementBackgroundColor;
         [self.visualEffectView.contentView addSubview:element];
     }
 
     CGFloat buttonHeight    = 45.0f;
-    CGFloat buttonWidth     = self.frame.size.width / 2;
+    CGFloat buttonWidth     = self.actualBox.frame.size.width / 2;
 
-    UIButton *cancelButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, self.frame.size.height - buttonHeight, buttonWidth, buttonHeight)];
+    UIButton *cancelButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, self.actualBox.frame.size.height - buttonHeight, buttonWidth, buttonHeight)];
     [cancelButton setTitle:self.cancelButtonText != nil ? self.cancelButtonText : @"Cancel" forState:UIControlStateNormal];
     [cancelButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     cancelButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
-    [cancelButton setTitleColor:self.blurEffectStyle == UIBlurEffectStyleDark ? [UIColor whiteColor] : [UIColor blackColor] forState: UIControlStateNormal];
+    [cancelButton setTitleColor:titleLabelTextColor forState: UIControlStateNormal];
     [cancelButton setTitleColor:[UIColor grayColor] forState: UIControlStateHighlighted];
-    cancelButton.backgroundColor = self.blurEffectStyle == UIBlurEffectStyleDark ? [UIColor colorWithWhite:1.0f alpha: 0.07f] :
-    [UIColor colorWithWhite:1.0f alpha: 0.2f];
+    cancelButton.backgroundColor = buttonBackgroundColor;
     cancelButton.layer.borderColor = [UIColor colorWithWhite: 0.0f alpha: 0.1f].CGColor;
     cancelButton.layer.borderWidth = 0.5;
     [self.visualEffectView.contentView addSubview:cancelButton];
 
-    UIButton *submitButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, self.frame.size.height - buttonHeight, buttonWidth, buttonHeight)];
+    UIButton *submitButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, self.actualBox.frame.size.height - buttonHeight, buttonWidth, buttonHeight)];
     [submitButton setTitle:self.submitButtonText != nil ? self.submitButtonText : @"OK" forState:UIControlStateNormal];
     [submitButton addTarget:self action:@selector(submitButtonTapped) forControlEvents: UIControlEventTouchUpInside];
     submitButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [submitButton setTitleColor:self.blurEffectStyle == UIBlurEffectStyleDark ? [UIColor whiteColor] : [UIColor blackColor] forState: UIControlStateNormal];
     [submitButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-    submitButton.backgroundColor = self.blurEffectStyle == UIBlurEffectStyleDark ? [UIColor colorWithWhite:1.0f alpha: 0.07f] :
-    [UIColor colorWithWhite:1.0f alpha: 0.2f];
+    submitButton.backgroundColor = buttonBackgroundColor;
     submitButton.layer.borderColor = [UIColor colorWithWhite:0.0f alpha: 0.1f].CGColor;
     submitButton.layer.borderWidth = 0.5;
     [self.visualEffectView.contentView addSubview:submitButton];
 
-    self.visualEffectView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-    [self addSubview:self.visualEffectView];
+    self.visualEffectView.frame = CGRectMake(0, 0, self.actualBox.frame.size.width, self.actualBox.frame.size.height + 45);
+    [self.actualBox addSubview:self.visualEffectView];
 }
 
 
@@ -295,6 +364,7 @@
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------
 - (void)deviceOrientationDidChange
 {
+
     [self resetFrame:YES];
 }
 
@@ -349,9 +419,9 @@
     [self resetFrame:YES];
 
     [UIView animateWithDuration:0.2f animations:^{
-        CGRect frame = self.frame;
+        CGRect frame = self.actualBox.frame;
         frame.origin.y -= [self yCorrection];
-        self.frame = frame;
+        self.actualBox.frame = frame;
     }];
 }
 
@@ -368,17 +438,17 @@
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------
 - (CGFloat)yCorrection
 {
-    CGFloat yCorrection = 30.0f;
+    CGFloat yCorrection = 115.0f;
 
     if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
         if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
-            yCorrection = 60.0f;
+            yCorrection = 80.0f;
         }
         else if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
             yCorrection = 100.0f;
         }
 
-        if (self.style == LoginAndPasswordInput) {
+        if (self.boxType == LoginAndPasswordInput) {
             yCorrection += 45.0f;
         }
     }
@@ -398,16 +468,19 @@
 // -------------------------------------------------------------------------------------------------------------------------------------------------------------
 - (void)resetFrame:(BOOL)animated
 {
-    CGFloat topMargin = (self.style == LoginAndPasswordInput) ? 0.0f : 45.0f;
+    CGFloat topMargin = (self.boxType == LoginAndPasswordInput) ? 0.0f : 0.0f;
     UIWindow *window = [UIApplication sharedApplication].windows[0];
+    self.frame = window.frame;
 
     if (animated) {
         [UIView animateWithDuration:0.3f animations:^{
-            self.center = CGPointMake(window.center.x, window.center.y - topMargin);
+            self.center = CGPointMake(window.center.x, window.center.y);
+            self.actualBox.center = CGPointMake(window.center.x, window.center.y - topMargin);
         }];
     }
     else {
-        self.center = CGPointMake(window.center.x, window.center.y - topMargin);
+        self.center = CGPointMake(window.center.x, window.center.y);
+        self.actualBox.center = CGPointMake(window.center.x, window.center.y - topMargin);
     }
 }
 

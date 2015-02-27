@@ -28,17 +28,17 @@
 
 - (IBAction)show:(id)sender
 {
-    MKInputBoxView *inputBoxView = [MKInputBoxView boxWithStyle:LoginAndPasswordInput];
+    MKInputBoxView *inputBoxView = [MKInputBoxView boxOfType:LoginAndPasswordInput];
     [inputBoxView setTitle:@"Who are you?"];
     [inputBoxView setMessage:@"Please enter your username and password to get access to the system."];
     [inputBoxView setBlurEffectStyle:UIBlurEffectStyleExtraLight];
 
-    inputBoxView.customiseInputElement = ^(UITextField *textField) {
+    inputBoxView.customise = ^(UITextField *textField) {
         textField.placeholder = @"Your eMail address";
         if (textField.secureTextEntry) {
             textField.placeholder = @"Your password";
         }
-        textField.textColor = [UIColor whiteColor];
+        textField.textColor = [UIColor blackColor];
         textField.layer.cornerRadius = 4.0f;
         return textField;
     };
