@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name                = "MKInputBoxView"
-  s.version             = "0.9"
+  s.version             = "0.9.1"
   s.summary             = "A tiny class to replace UIAlertView."
   s.description         = "MKInputBoxView is a tiny class that lets you replace UIAlertView with a better customizable view."
   s.homepage            = "https://github.com/planetexpress69/MKInputBoxView"
