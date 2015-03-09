@@ -91,6 +91,20 @@ typedef NS_ENUM(NSInteger, MKInputBoxType) {
  */
 - (void)setMessage:(NSString *)message;
 
+/** Sets the text of the submit button.
+ *
+ * @param title The text of the submit button. 'OK' if not set explicitly.
+ *
+ */
+- (void)setSubmitButtonText:(NSString *)submitButtonText;
+
+/** Sets the text of the cancel button.
+ *
+ * @param title The text of the cancel button. 'Cancel' if not set explicitly.
+ *
+ */
+- (void)setCancelButtonText:(NSString *)cancelButtonText;
+
 /** Sets the title of the box.
  *
  * @param numberOfDecimals The optional number of decimals when using the

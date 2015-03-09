@@ -27,28 +27,21 @@
 
 
 @implementation MKInputBoxView
-/**-----------------------------------------------------------------------------
- * @name Designated initializer
- * -----------------------------------------------------------------------------
- */
+// -----------------------------------------------------------------------------
+#pragma mark - Init
+// -----------------------------------------------------------------------------
 + (instancetype)boxOfType:(MKInputBoxType)boxType
 {
     return [[self alloc]initWithBoxType:boxType];
 }
 
-/**-----------------------------------------------------------------------------
- * @name Initializer
- * -----------------------------------------------------------------------------
- */
+// -----------------------------------------------------------------------------
 - (instancetype)init
 {
     return [self initWithBoxType:PlainTextInput];
 }
 
-/**-----------------------------------------------------------------------------
- * @name Designated initializer
- * -----------------------------------------------------------------------------
- */
+// -----------------------------------------------------------------------------
 - (instancetype)initWithBoxType:(MKInputBoxType)boxType
 {
     UIWindow *window = [UIApplication sharedApplication].windows[0];
@@ -68,8 +61,10 @@
 }
 
 
+
+
 // -----------------------------------------------------------------------------
-#pragma mark - Setters for box' properties.
+#pragma mark - Setters
 // -----------------------------------------------------------------------------
 - (void)setBlurEffectStyle:(UIBlurEffectStyle)blurEffectStyle
 {
@@ -94,6 +89,18 @@
     _numberOfDecimals = numberOfDecimals;
 }
 
+// -----------------------------------------------------------------------------
+- (void)setSubmitButtonText:(NSString *)submitButtonText
+{
+    _submitButtonText = submitButtonText;
+}
+
+// -----------------------------------------------------------------------------
+- (void)setCancelButtonText:(NSString *)cancelButtonText
+{
+    _cancelButtonText = cancelButtonText;
+}
+
 
 
 
@@ -108,7 +115,6 @@
     [UIView animateWithDuration:0.3f animations:^{
         self.alpha = 1.0f;
     }];
-
 
     UIWindow *window = [UIApplication sharedApplication].windows[0];
     [window addSubview:self];

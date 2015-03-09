@@ -33,6 +33,8 @@
     [inputBoxView setMessage:@"Please enter your username and password to get access to the system."];
     [inputBoxView setBlurEffectStyle:UIBlurEffectStyleExtraLight];
 
+    [inputBoxView setCancelButtonText:@"Not yet"];
+
     inputBoxView.customise = ^(UITextField *textField) {
         textField.placeholder = @"Your eMail address";
         if (textField.secureTextEntry) {

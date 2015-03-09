@@ -14,15 +14,24 @@ Built in Objective-C for iOS 8.0 and above. ARC-enabled. For both iPhone and iPa
 
 ### Cocoapods
 
-CocoaPods will be the recommended way to add MKInputBoxView to your project. Just need to get the podfile done...
-**Until that time, simply add the `MKInputBoxView.h` and `MKInputBoxView.m` files to your project.**
+CocoaPods is the recommended way to add MKInputBoxView to your project. Just add
+```ruby
+pod 'MKInputBoxView'
+```
+and run 
+`pod install`. It will install the most recent version of MKInputBoxView.
+
+If you would like to use the latest code of MKInputBoxView use:
+```ruby
+pod 'MKInputBoxView', :head
+```
 
 ## Usage
 
 #### Creating an input box
 
 ```Objective-C
-MKInputBoxView *inputBoxView = [MKInputBoxView boxWithStyle:NumberInput];
+MKInputBoxView *inputBoxView = [MKInputBoxView boxOfType:NumberInput];
 [inputBoxView show];
 ```
 
@@ -48,6 +57,12 @@ Set title and message.
 [inputBoxView setMessage:@"Please enter your username and password to get access to the system."];
 ```
 
+Set text of the buttons
+```Objective-C
+[inputBoxView setSubmitButtonText:@"OK"];
+[inputBoxView setCancelButtonText:@"Cancel"];
+```
+
 Decimals for the `NumberInput` type. Default is 0. If set, the user input will be converted to Double with 2 decimals.
 
 ```Objective-C
@@ -57,7 +72,7 @@ Decimals for the `NumberInput` type. Default is 0. If set, the user input will b
 Easy way to manipulate the textField's properties.
 
 ```Objective-C
-inputBoxView.customiseInputElement = ^(UITextField *textField) {
+inputBoxView.customise = ^(UITextField *textField) {
     textField.placeholder = @"Your eMail address";
     if (textField.secureTextEntry) {
         textField.placeholder = @"Your password";
