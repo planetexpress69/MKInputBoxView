@@ -26,6 +26,8 @@ If you would like to use the latest code of MKInputBoxView use:
 pod 'MKInputBoxView', :head
 ```
 
+Alternatively, just add `MKInputBoxView.h`and `MKInputBoxView.m` to your project.
+
 ## Usage
 
 #### Creating an input box

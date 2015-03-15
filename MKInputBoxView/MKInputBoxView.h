@@ -86,7 +86,7 @@ typedef NS_ENUM(NSInteger, MKInputBoxType) {
 
 /** Sets the message of the box.
  *
- * @param title The message of the box. Up to three lines, centered.
+ * @param title The message of the box. Up to two lines, centered.
  *
  */
 - (void)setMessage:(NSString *)message;
@@ -138,9 +138,8 @@ typedef NS_ENUM(NSInteger, MKInputBoxType) {
 /** Gets the string(s) out of the form.
  *
  * @return valueOne The string as entered in the upper textfield.
- * @return valueTwo The string as entered in the lower textfield. Nil if box
- * wasn't in `LoginAndPasswordInput` style.
- *
+ * @return valueTwo The string as entered in the lower textfield. 
+ * Nil if boxType != `LoginAndPasswordInput`.
  */
 @property (nonatomic, copy) void(^onSubmit)(NSString *, NSString *);
 
