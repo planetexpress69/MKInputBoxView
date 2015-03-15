@@ -44,18 +44,23 @@
 // -----------------------------------------------------------------------------
 - (instancetype)initWithBoxType:(MKInputBoxType)boxType
 {
-    UIWindow *window = [UIApplication sharedApplication].windows[0];
-    CGRect allFrame = window.frame;
+    CGFloat actualBoxHeight = 155.0f;
+    UIWindow *window        = [UIApplication sharedApplication].windows[0];
+    CGRect allFrame         = window.frame;
 
-    CGRect boxFrame = CGRectMake(0,0, MIN(325, window.frame.size.width - 50), 210);
+    CGRect boxFrame         = CGRectMake(0,
+                                         0,
+                                         MIN(325, window.frame.size.width - 50),
+                                         actualBoxHeight);
+
     if ((self = [super initWithFrame:allFrame])) {
-        self.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.0];
-        self.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleHeight;
-        self.actualBox = [[UIView alloc] initWithFrame:boxFrame];
-        self.actualBox.center = CGPointMake(window.center.x, window.center.y);
-        self.center = CGPointMake(window.center.x, window.center.y);
+        self.boxType            = boxType;
+        self.backgroundColor    = [UIColor colorWithWhite:1.0 alpha:0.0];
+        self.autoresizingMask   = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleHeight;
+        self.actualBox          = [[UIView alloc] initWithFrame:boxFrame];
+        self.actualBox.center   = CGPointMake(window.center.x, window.center.y);
+        self.center             = CGPointMake(window.center.x, window.center.y);
         [self addSubview:self.actualBox];
-        self.boxType = boxType;
     }
     return self;
 }
@@ -161,9 +166,11 @@
 
         // Remove from listening to keyboard notifications
         [center removeObserver:self
-                          name:@"UIKeyboardDidShowNotification" object:nil];
+                          name:@"UIKeyboardDidShowNotification"
+                        object:nil];
         [center removeObserver:self
-                          name:@"UIKeyboardDidHideNotification" object:nil];
+                          name:@"UIKeyboardDidHideNotification"
+                        object:nil];
     }];
 }
 
@@ -175,16 +182,15 @@
 // -----------------------------------------------------------------------------
 - (void)setupView
 {
-    self.elements = [NSMutableArray new];
+    self.elements                       = [NSMutableArray new];
 
-    self.actualBox.layer.cornerRadius     = 4.0;
-    self.actualBox.layer.masksToBounds    = true;
+    self.actualBox.layer.cornerRadius   = 4.0;
+    self.actualBox.layer.masksToBounds  = true;
 
-
-    UIColor *titleLabelTextColor = nil;
-    UIColor *messageLabelTextColor = nil;
-    UIColor *elementBackgroundColor = nil;
-    UIColor *buttonBackgroundColor = nil;
+    UIColor *titleLabelTextColor        = nil;
+    UIColor *messageLabelTextColor      = nil;
+    UIColor *elementBackgroundColor     = nil;
+    UIColor *buttonBackgroundColor      = nil;
 
     UIBlurEffectStyle style = UIBlurEffectStyleLight;
     if (self.blurEffectStyle) {
@@ -193,37 +199,39 @@
 
     switch (style) {
         case UIBlurEffectStyleDark:
-            titleLabelTextColor = [UIColor whiteColor];
-            messageLabelTextColor = [UIColor whiteColor];
-            elementBackgroundColor = [UIColor colorWithWhite:1.0f alpha: 0.07f];
-            buttonBackgroundColor = [UIColor colorWithWhite:1.0f alpha: 0.07f];
+            titleLabelTextColor     = [UIColor whiteColor];
+            messageLabelTextColor   = [UIColor whiteColor];
+            elementBackgroundColor  = [UIColor colorWithWhite:1.0f alpha: 0.07f];
+            buttonBackgroundColor   = [UIColor colorWithWhite:1.0f alpha: 0.07f];
             break;
         default:
-            titleLabelTextColor = [UIColor blackColor];
-            messageLabelTextColor = [UIColor blackColor];
-            elementBackgroundColor = [UIColor colorWithWhite:1.0f alpha: 0.50f];
-            buttonBackgroundColor = [UIColor colorWithWhite:1.0f alpha: 0.2f];
+            titleLabelTextColor     = [UIColor blackColor];
+            messageLabelTextColor   = [UIColor blackColor];
+            elementBackgroundColor  = [UIColor colorWithWhite:1.0f alpha: 0.50f];
+            buttonBackgroundColor   = [UIColor colorWithWhite:1.0f alpha: 0.2f];
             break;
     }
 
     UIVisualEffect *effect  = [UIBlurEffect effectWithStyle:style];
     self.visualEffectView   = [[UIVisualEffectView alloc]initWithEffect:effect];
 
-    CGFloat padding         = 20.0f;
+    CGFloat padding         = 10.0f;
     CGFloat width           = self.actualBox.frame.size.width - padding * 2;
 
     UILabel *titleLabel     = [[UILabel alloc] initWithFrame:
-                                   CGRectMake(padding, padding, width, 20)];
-    titleLabel.font         = [UIFont boldSystemFontOfSize:18.0f];
+                               CGRectMake(padding, padding, width, 20)];
+    //titleLabel.backgroundColor = [UIColor redColor];
+    titleLabel.font         = [UIFont boldSystemFontOfSize:17.0f];
     titleLabel.text         = self.title;
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.textColor = titleLabelTextColor;
+    titleLabel.textAlignment= NSTextAlignmentCenter;
+    titleLabel.textColor    = titleLabelTextColor;
     [self.visualEffectView.contentView addSubview:titleLabel];
 
     UILabel *messageLabel   = [[UILabel alloc]initWithFrame:
-                               CGRectMake(padding, padding + titleLabel.frame.size.height + 10, width, 20)];
-    messageLabel.numberOfLines  = 4;
-    messageLabel.font       = [UIFont systemFontOfSize:14.0f];
+                               CGRectMake(padding, padding + titleLabel.frame.size.height + 5, width, 20)];
+    // messageLabel.backgroundColor = [UIColor redColor];
+    messageLabel.numberOfLines  = 2;
+    messageLabel.font       = [UIFont systemFontOfSize:13.0f];
     messageLabel.text       = self.message;
     messageLabel.textAlignment  = NSTextAlignmentCenter;
     messageLabel.textColor  = messageLabelTextColor;
@@ -234,7 +242,7 @@
 
         case PlainTextInput:
             self.textInput = [[UITextField alloc]initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
+                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
             if (self.customise) {
                 self.textInput = self.customise(self.textInput);
@@ -245,7 +253,7 @@
 
         case NumberInput:
             self.textInput = [[UITextField alloc] initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
+                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
             if (self.customise) {
                 self.textInput = self.customise(self.textInput);
@@ -258,7 +266,7 @@
 
         case EmailInput:
             self.textInput = [[UITextField alloc] initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
+                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
             if (self.customise) {
                 self.textInput = self.textInput = self.customise(self.textInput);
@@ -270,7 +278,7 @@
 
         case SecureTextInput:
             self.textInput = [[UITextField alloc] initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
+                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
             if (self.customise) {
                 self.textInput = self.customise(self.textInput);
@@ -281,7 +289,7 @@
 
         case PhoneNumberInput:
             self.textInput = [[UITextField alloc] initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
+                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
             if (self.customise) {
                 self.textInput = self.customise(self.textInput);
@@ -294,7 +302,7 @@
         case LoginAndPasswordInput:
 
             self.textInput = [[UITextField alloc] initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 35)];
+                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding, width, 30)];
             self.textInput.textAlignment = NSTextAlignmentCenter;
 
             if (self.customise) {
@@ -304,7 +312,7 @@
             [self.elements addObject:self.textInput];
 
             self.secureInput = [[UITextField alloc] initWithFrame:
-                                CGRectMake(padding, self.textInput.frame.origin.y + self.textInput.frame.size.height + padding / 2, width, 35)];
+                                CGRectMake(padding, self.textInput.frame.origin.y + self.textInput.frame.size.height + padding, width, 30)];
             self.secureInput.textAlignment = NSTextAlignmentCenter;
             self.secureInput.secureTextEntry = YES;
 
@@ -333,7 +341,7 @@
         [self.visualEffectView.contentView addSubview:element];
     }
 
-    CGFloat buttonHeight    = 45.0f;
+    CGFloat buttonHeight    = 40.0f;
     CGFloat buttonWidth     = self.actualBox.frame.size.width / 2;
 
     UIButton *cancelButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, self.actualBox.frame.size.height - buttonHeight, buttonWidth, buttonHeight)];
@@ -393,7 +401,7 @@
     if (self.onSubmit != nil) {
         NSString *textValue = self.textInput.text;
         NSString *passValue = self.secureInput.text;
-        self.onSubmit(textValue, passValue);        
+        self.onSubmit(textValue, passValue);
     }
     [self hide];
 }
