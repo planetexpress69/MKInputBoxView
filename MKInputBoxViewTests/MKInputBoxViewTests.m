@@ -35,14 +35,6 @@
     [super tearDown];
 }
 
-/*
- - (void)testExample 
- {
- // This is an example of a functional test case.
- XCTAssert(YES, @"Pass");
- }
- */
-
 - (void)testNumbersOfDecimal
 {
     NSString *inputString       = @"12000";
@@ -50,7 +42,7 @@
     int numberOfDecimalsToCheck = 4;
 
     // init box
-    MKInputBoxView *testBox = [MKInputBoxView boxWithStyle:NumberInput];
+    MKInputBoxView *testBox = [MKInputBoxView boxOfType:NumberInput];
     [testBox setNumberOfDecimals:numberOfDecimalsToCheck];
 
     // pre-fill textField
@@ -75,13 +67,4 @@
     [testBox submitButtonTapped];
 }
 
-
-/*
- - (void)testPerformanceExample 
- {
- // This is an example of a performance test case.
- [self measureBlock:^{
- }];
- }
- */
 @end
