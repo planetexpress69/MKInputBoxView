@@ -399,9 +399,12 @@
     if (self.onSubmit != nil) {
         NSString *textValue = self.textInput.text;
         NSString *passValue = self.secureInput.text;
-        self.onSubmit(textValue, passValue);
+        if (self.onSubmit(textValue, passValue)){
+            [self hide];
+        }
+    } else {
+        [self hide];
     }
-    [self hide];
 }
 
 

@@ -141,7 +141,7 @@ typedef NS_ENUM(NSInteger, MKInputBoxType) {
  * @return valueTwo The string as entered in the lower textfield. 
  * Nil if boxType != `LoginAndPasswordInput`.
  */
-@property (nonatomic, copy) void(^onSubmit)(NSString *, NSString *);
+@property (nonatomic, copy) BOOL(^onSubmit)(NSString *, NSString *);
 
 /** Block being called if the cancel button got touched.
  *
