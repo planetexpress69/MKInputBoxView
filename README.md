@@ -91,6 +91,11 @@ inputBoxView.customise = ^(UITextField *textField) {
 inputBoxView.onSubmit = ^(NSString *value1, NSString *value2) {
     NSLog(@"user: %@", value1);
     NSLog(@"pass: %@", value2);
+    if ([value1 isValid] && [value2 isValid]){
+	return YES; // YES to hide the inputBoxView
+    } else {
+	return NO; // NO will keep the inputBoxView open
+    }
 };
 ```
 ```Objective-C
