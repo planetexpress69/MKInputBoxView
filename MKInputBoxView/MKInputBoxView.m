@@ -19,8 +19,9 @@
 @property (nonatomic, assign)   UIBlurEffectStyle   blurEffectStyle;
 @property (nonatomic, strong)   NSMutableArray      *elements;
 @property (nonatomic, strong)   UIVisualEffectView  *visualEffectView;
-@property (nonatomic, strong)   UITextField         *textInput;
-@property (nonatomic, strong)   UITextField         *secureInput;
+@property (nonatomic, strong)   UITextField         *textInput1;
+@property (nonatomic, strong)   UITextField         *textInput2;
+@property (nonatomic, strong)   UITextField         *textInput3 ;
 @property (nonatomic, strong)   UIView              *actualBox;
 // -----------------------------------------------------------------------------
 @end
@@ -46,20 +47,20 @@
 {
     CGFloat actualBoxHeight = 155.0f;
     UIWindow *window        = [UIApplication sharedApplication].windows[0];
-    CGRect allFrame         = window.frame;
+    CGRect allFrame         = CGRectIntegral(window.frame);
 
-    CGRect boxFrame         = CGRectMake(0,
-                                         0,
-                                         MIN(325, window.frame.size.width - 50),
-                                         actualBoxHeight);
+    CGRect boxFrame         = CGRectIntegral(CGRectMake(ceilf(0),
+                                         ceilf(0),
+                                         ceilf(MIN(325, window.frame.size.width - 50)),
+                                         ceilf(actualBoxHeight)));
 
     if ((self = [super initWithFrame:allFrame])) {
         self.boxType            = boxType;
         self.backgroundColor    = [UIColor colorWithWhite:1.0 alpha:0.0];
         self.autoresizingMask   = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleHeight;
         self.actualBox          = [[UIView alloc] initWithFrame:boxFrame];
-        self.actualBox.center   = CGPointMake(window.center.x, window.center.y);
-        self.center             = CGPointMake(window.center.x, window.center.y);
+        self.actualBox.center   = CGPointMake(ceilf(window.center.x), ceilf(window.center.y));
+        self.center             = CGPointMake(ceilf(window.center.x), ceilf(window.center.y));
         [self addSubview:self.actualBox];
     }
     return self;
@@ -120,6 +121,8 @@
     [UIView animateWithDuration:0.3f animations:^{
         self.alpha = 1.0f;
     }];
+
+    self.frame = CGRectIntegral(self.frame);
 
     UIWindow *window = [UIApplication sharedApplication].windows[0];
     [window addSubview:self];
@@ -184,7 +187,7 @@
 {
     self.elements                       = [NSMutableArray new];
 
-    self.actualBox.layer.cornerRadius   = 4.0;
+    self.actualBox.layer.cornerRadius   = 8.0;
     self.actualBox.layer.masksToBounds  = true;
 
     UIColor *titleLabelTextColor        = nil;
@@ -218,8 +221,8 @@
     CGFloat padding         = 10.0f;
     CGFloat width           = self.actualBox.frame.size.width - padding * 2;
 
-    UILabel *titleLabel     = [[UILabel alloc] initWithFrame:
-                               CGRectMake(padding, padding, width, 20)];
+    UILabel *titleLabel     = [[UILabel alloc] initWithFrame:CGRectIntegral(
+                               CGRectMake(padding, padding, width, 20))];
     titleLabel.font         = [UIFont boldSystemFontOfSize:17.0f];
     titleLabel.text         = self.title;
     titleLabel.textAlignment= NSTextAlignmentCenter;
@@ -227,7 +230,7 @@
     [self.visualEffectView.contentView addSubview:titleLabel];
 
     UILabel *messageLabel   = [[UILabel alloc]initWithFrame:
-                               CGRectMake(padding, padding + titleLabel.frame.size.height + 5, width, 31.5)];
+                               CGRectIntegral(CGRectMake(padding, padding + titleLabel.frame.size.height + 5, width, 32))];
     messageLabel.numberOfLines  = 2;
     messageLabel.font       = [UIFont systemFontOfSize:13.0f];
     messageLabel.text       = self.message;
@@ -236,97 +239,145 @@
     [messageLabel sizeToFit];
     [self.visualEffectView.contentView addSubview:messageLabel];
 
+    CGRect extendedFrame;
+
     switch (self.boxType) {
 
         case PlainTextInput:
-            self.textInput = [[UITextField alloc]initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30)];
-            self.textInput.textAlignment = NSTextAlignmentCenter;
+            self.textInput1 = [[UITextField alloc]initWithFrame:
+                              CGRectIntegral(CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30))];
+            self.textInput1.textAlignment = NSTextAlignmentCenter;
             if (self.customise) {
-                self.textInput = self.customise(self.textInput);
+                self.textInput1 = self.customise(self.textInput1);
             }
-            [self.elements addObject:self.textInput];
-            self.textInput.autocorrectionType = UITextAutocorrectionTypeNo;
+            [self.elements addObject:self.textInput1];
+            self.textInput1.autocorrectionType = UITextAutocorrectionTypeNo;
             break;
 
 
         case NumberInput:
-            self.textInput = [[UITextField alloc] initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30)];
-            self.textInput.textAlignment = NSTextAlignmentCenter;
+            self.textInput1 = [[UITextField alloc] initWithFrame:
+                              CGRectMake(padding, ceilf(messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5), width, 30)];
+            self.textInput1.textAlignment = NSTextAlignmentCenter;
             if (self.customise) {
-                self.textInput = self.customise(self.textInput);
+                self.textInput1 = self.customise(self.textInput1);
             }
-            [self.elements addObject:self.textInput];
-            self.textInput.keyboardType = UIKeyboardTypeNumberPad;
-            [self.textInput addTarget:self action:@selector(textInputDidChange) forControlEvents:UIControlEventEditingChanged];
+            [self.elements addObject:self.textInput1];
+            self.textInput1.keyboardType = UIKeyboardTypeNumberPad;
+            [self.textInput1 addTarget:self action:@selector(textInputDidChange) forControlEvents:UIControlEventEditingChanged];
             break;
 
 
         case EmailInput:
-            self.textInput = [[UITextField alloc] initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30)];
-            self.textInput.textAlignment = NSTextAlignmentCenter;
+            self.textInput1 = [[UITextField alloc] initWithFrame:
+                              CGRectIntegral(CGRectMake(padding, ceilf(messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5), width, 30))];
+            self.textInput1.textAlignment = NSTextAlignmentCenter;
             if (self.customise) {
-                self.textInput = self.textInput = self.customise(self.textInput);
+                self.textInput1 = self.customise(self.textInput1);
             }
-            [self.elements addObject:self.textInput];
-            self.textInput.keyboardType = UIKeyboardTypeEmailAddress;
-            self.textInput.autocorrectionType = UITextAutocorrectionTypeNo;
+            [self.elements addObject:self.textInput1];
+            self.textInput1.keyboardType = UIKeyboardTypeEmailAddress;
+            self.textInput1.autocorrectionType = UITextAutocorrectionTypeNo;
             break;
 
 
         case SecureTextInput:
-            self.textInput = [[UITextField alloc] initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30)];
-            self.textInput.textAlignment = NSTextAlignmentCenter;
+            self.textInput1 = [[UITextField alloc] initWithFrame:
+                              CGRectIntegral(CGRectMake(padding, ceilf(messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5), width, 30))];
+            self.textInput1.textAlignment = NSTextAlignmentCenter;
             if (self.customise) {
-                self.textInput = self.customise(self.textInput);
+                self.textInput1 = self.customise(self.textInput1);
             }
-            [self.elements addObject:self.textInput];
+            [self.elements addObject:self.textInput1];
             break;
 
 
         case PhoneNumberInput:
-            self.textInput = [[UITextField alloc] initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5, width, 30)];
-            self.textInput.textAlignment = NSTextAlignmentCenter;
+            self.textInput1 = [[UITextField alloc] initWithFrame:
+                              CGRectIntegral(CGRectMake(padding, ceilf(messageLabel.frame.origin.y + messageLabel.frame.size.height + padding / 1.5), width, 30))];
+            self.textInput1.textAlignment = NSTextAlignmentCenter;
             if (self.customise) {
-                self.textInput = self.customise(self.textInput);
+                self.textInput1 = self.customise(self.textInput1);
             }
-            [self.elements addObject:self.textInput];
-            self.textInput.keyboardType = UIKeyboardTypePhonePad;
+            [self.elements addObject:self.textInput1];
+            self.textInput1.keyboardType = UIKeyboardTypePhonePad;
             break;
 
 
         case LoginAndPasswordInput:
-
-            self.textInput = [[UITextField alloc] initWithFrame:
-                              CGRectMake(padding, messageLabel.frame.origin.y + messageLabel.frame.size.height + padding, width, 30)];
-            self.textInput.textAlignment = NSTextAlignmentCenter;
-
-            if (self.customise) {
-                self.textInput = self.customise(self.textInput);
-            }
-            self.textInput.autocorrectionType = UITextAutocorrectionTypeNo;
-            [self.elements addObject:self.textInput];
-
-            self.secureInput = [[UITextField alloc] initWithFrame:
-                                CGRectMake(padding, self.textInput.frame.origin.y + self.textInput.frame.size.height + padding, width, 30)];
-            self.secureInput.textAlignment = NSTextAlignmentCenter;
-            self.secureInput.secureTextEntry = YES;
+            self.textInput1 = [[UITextField alloc] initWithFrame:
+                              CGRectIntegral(CGRectMake(padding, ceilf(messageLabel.frame.origin.y + messageLabel.frame.size.height + padding), width, 30))];
+            self.textInput1.textAlignment = NSTextAlignmentCenter;
 
             if (self.customise) {
-                self.secureInput = self.customise(self.secureInput);
+                self.textInput1 = self.customise(self.textInput1);
+            }
+            self.textInput1.autocorrectionType = UITextAutocorrectionTypeNo;
+            [self.elements addObject:self.textInput1];
+
+            self.textInput2 = [[UITextField alloc] initWithFrame:
+                                CGRectIntegral(CGRectMake(padding, ceilf(self.textInput1.frame.origin.y + self.textInput1.frame.size.height + padding), width, 30))];
+            self.textInput2.textAlignment = NSTextAlignmentCenter;
+            self.textInput2.secureTextEntry = YES;
+
+            if (self.customise) {
+                self.textInput2 = self.customise(self.textInput2);
             }
 
-            [self.elements addObject:self.secureInput];
+            [self.elements addObject:self.textInput2];
 
             // adjust height!
-            CGRect extendedFrame = self.actualBox.frame;
+            extendedFrame = self.actualBox.frame;
             extendedFrame.size.height += 45;
             self.actualBox.frame = extendedFrame;
             break;
+
+        case EmailAndNameAndEmail:
+
+            self.textInput1 = [[UITextField alloc] initWithFrame:
+                               CGRectIntegral(CGRectMake(padding, ceilf(messageLabel.frame.origin.y + messageLabel.frame.size.height + padding), width, 30))];
+            self.textInput1.textAlignment = NSTextAlignmentCenter;
+            self.textInput1.keyboardType = UIKeyboardTypeEmailAddress;
+            self.textInput1.autocorrectionType = UITextAutocorrectionTypeNo;
+            self.textInput1.autocapitalizationType = UITextAutocapitalizationTypeNone;
+
+            if (self.customise) {
+                self.textInput1.tag = 1;
+                self.textInput1 = self.customise(self.textInput1);
+            }
+            [self.elements addObject:self.textInput1];
+
+            self.textInput2 = [[UITextField alloc] initWithFrame:
+                               CGRectIntegral(CGRectMake(padding, ceilf(self.textInput1.frame.origin.y + self.textInput1.frame.size.height + padding), width, 30))];
+            self.textInput2.textAlignment = NSTextAlignmentCenter;
+            self.textInput2.autocorrectionType = UITextAutocorrectionTypeNo;
+
+            if (self.customise) {
+                self.textInput2.tag = 2;
+                self.textInput2 = self.customise(self.textInput2);
+            }
+            [self.elements addObject:self.textInput2];
+
+
+            self.textInput3 = [[UITextField alloc] initWithFrame:
+                               CGRectIntegral(CGRectMake(padding, ceilf(self.textInput2.frame.origin.y + self.textInput2.frame.size.height + padding), width, 30))];
+            self.textInput3.textAlignment = NSTextAlignmentCenter;
+            self.textInput3.keyboardType = UIKeyboardTypeEmailAddress;
+            self.textInput3.autocorrectionType = UITextAutocorrectionTypeNo;
+            self.textInput3.autocapitalizationType = UITextAutocapitalizationTypeNone;
+
+            if (self.customise) {
+                self.textInput3.tag = 3;
+                self.textInput3 = self.customise(self.textInput3);
+            }
+            [self.elements addObject:self.textInput3];
+
+            // adjust height!
+            extendedFrame = self.actualBox.frame;
+            extendedFrame.size.height += 90;
+            self.actualBox.frame = extendedFrame;
+            break;
+
 
         default:
             NSAssert(NO, @"Boom! You should set a proper MKInputStyle! Bailing out...");
@@ -343,7 +394,7 @@
     CGFloat buttonHeight    = 40.0f;
     CGFloat buttonWidth     = self.actualBox.frame.size.width / 2;
 
-    UIButton *cancelButton  = [[UIButton alloc] initWithFrame:CGRectMake(0, self.actualBox.frame.size.height - buttonHeight, buttonWidth, buttonHeight)];
+    UIButton *cancelButton  = [[UIButton alloc] initWithFrame:CGRectIntegral(CGRectMake(0, ceilf(self.actualBox.frame.size.height - buttonHeight), ceilf(buttonWidth), ceilf(buttonHeight)))];
     [cancelButton setTitle:self.cancelButtonText != nil ? self.cancelButtonText : @"Cancel" forState:UIControlStateNormal];
     [cancelButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     cancelButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
@@ -354,7 +405,7 @@
     cancelButton.layer.borderWidth = 0.5;
     [self.visualEffectView.contentView addSubview:cancelButton];
 
-    UIButton *submitButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, self.actualBox.frame.size.height - buttonHeight, buttonWidth, buttonHeight)];
+    UIButton *submitButton = [[UIButton alloc] initWithFrame:CGRectIntegral(CGRectMake(buttonWidth, self.actualBox.frame.size.height - buttonHeight, buttonWidth, buttonHeight))];
     [submitButton setTitle:self.submitButtonText != nil ? self.submitButtonText : @"OK" forState:UIControlStateNormal];
     [submitButton addTarget:self action:@selector(submitButtonTapped) forControlEvents: UIControlEventTouchUpInside];
     submitButton.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -365,7 +416,7 @@
     submitButton.layer.borderWidth = 0.5;
     [self.visualEffectView.contentView addSubview:submitButton];
 
-    self.visualEffectView.frame = CGRectMake(0, 0, self.actualBox.frame.size.width, self.actualBox.frame.size.height + 45);
+    self.visualEffectView.frame = CGRectIntegral(CGRectMake(0, 0, self.actualBox.frame.size.width, self.actualBox.frame.size.height + 45));
     [self.actualBox addSubview:self.visualEffectView];
     self.actualBox.center = self.center;
 }
@@ -397,14 +448,12 @@
 // -----------------------------------------------------------------------------
 - (void)submitButtonTapped {
     if (self.onSubmit != nil) {
-        NSString *textValue = self.textInput.text;
-        NSString *passValue = self.secureInput.text;
-        if (self.onSubmit(textValue, passValue)){
-            [self hide];
-        }
-    } else {
-        [self hide];
+        NSString *textValue1 = self.textInput1.text;
+        NSString *textValue2 = self.textInput2.text;
+        NSString *textValue3 = self.textInput3.text;
+        self.onSubmit(textValue1, textValue2, textValue3);
     }
+    [self hide];
 }
 
 
@@ -415,12 +464,12 @@
 // -----------------------------------------------------------------------------
 - (void)textInputDidChange
 {
-    NSString *sText = self.textInput.text;
+    NSString *sText = self.textInput1.text;
     sText = [sText stringByReplacingOccurrencesOfString:@"." withString:@""];
     double power = pow(10.0f, (double)self.numberOfDecimals);
     double number = sText.doubleValue / power;
     NSString *sPattern = [NSString stringWithFormat:@"%%.%df", self.numberOfDecimals];
-    self.textInput.text = [NSString stringWithFormat:sPattern, number];
+    self.textInput1.text = [NSString stringWithFormat:sPattern, number];
 }
 
 
@@ -469,7 +518,7 @@
     }
     else {
         if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-            yCorrection = 0.0f;
+            yCorrection = 40.0f;
         }
     }
     return yCorrection;

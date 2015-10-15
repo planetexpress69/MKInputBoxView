@@ -14,19 +14,8 @@ Built in Objective-C for iOS 8.0 and above. ARC-enabled. For both iPhone and iPa
 
 ### Cocoapods
 
-CocoaPods is the recommended way to add MKInputBoxView to your project. Just add
-```ruby
-pod 'MKInputBoxView'
-```
-and run 
-`pod install`. It will install the most recent version of MKInputBoxView.
-
-If you would like to use the latest code of MKInputBoxView use:
-```ruby
-pod 'MKInputBoxView', :head
-```
-
-Alternatively, just add `MKInputBoxView.h`and `MKInputBoxView.m` to your project.
+This branch is not available as Pod. Go to [master](https://github.com/planetexpress69/MKInputBoxView/tree/master)...
+Just add `MKInputBoxView.h`and `MKInputBoxView.m` to your project.
 
 ## Usage
 
@@ -44,6 +33,7 @@ Available styles:
 * `EmailInput` - Text field accepting email addresses -  email keyboard
 * `SecureTextInput` - Secure text field for passwords
 * `LoginAndPasswordInput` - Two text fields for user and password entry
+* `EmailAndNameAndEmail` - Three text fields for email address, name and another email address with the appr. keyboards.
 
 #### Customising the box
 Changing the blur effect (UIBlurEffectStyle: ExtraLight, Light, Dark).
@@ -88,13 +78,14 @@ inputBoxView.customise = ^(UITextField *textField) {
 ### Closures for submission and cancellation
 
 ```Objective-C
-inputBoxView.onSubmit = ^(NSString *value1, NSString *value2) {
-    NSLog(@"user: %@", value1);
-    NSLog(@"pass: %@", value2);
-    if ([value1 isValid] && [value2 isValid]){
-	return YES; // YES to hide the inputBoxView
+inputBoxView.onSubmit = ^(NSString *value1, NSString *value2, NSString *value3) {
+    NSLog(@"value1: %@", value1);
+    NSLog(@"value2: %@", value2);
+    NSLog(@"value3: %@", value3);
+    if (someCondition) {
+      return YES; // YES to hide the inputBoxView
     } else {
-	return NO; // NO will keep the inputBoxView open
+      return NO; // NO will keep the inputBoxView open
     }
 };
 ```

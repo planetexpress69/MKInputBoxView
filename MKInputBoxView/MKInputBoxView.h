@@ -37,16 +37,22 @@ typedef NS_ENUM(NSInteger, MKInputBoxType) {
      */
     SecureTextInput,
 
-    /** An input view that contains two text field
+    /** An input view that contains two text fields
      * to receive plain text for an username and secure text for a password.
      */
-    LoginAndPasswordInput
+    LoginAndPasswordInput,
+
+    /** An input view that contains three fields
+     * to receive plain text for an email address, a name and another email address.
+     * This is for a certain use case (Honeywell FileCloud).
+     */
+    EmailAndNameAndEmail
 };
 
 
-/** The `MKInputBoxView` is a simple class to replace the UIAlertView with 
+/** The `MKInputBoxView` is a simple class to replace the UIAlertView with
  * having input fields.
- * It is highly customizable and features one or two text fields to receive 
+ * It is highly customizable and features one or two text fields to receive
  * user input.
  * Instead of talking to a delegate, it's block-based.
  *
@@ -138,10 +144,10 @@ typedef NS_ENUM(NSInteger, MKInputBoxType) {
 /** Gets the string(s) out of the form.
  *
  * @return valueOne The string as entered in the upper textfield.
- * @return valueTwo The string as entered in the lower textfield. 
+ * @return valueTwo The string as entered in the lower textfield.
  * Nil if boxType != `LoginAndPasswordInput`.
  */
-@property (nonatomic, copy) BOOL(^onSubmit)(NSString *, NSString *);
+@property (nonatomic, copy) void(^onSubmit)(NSString *, NSString *, NSString *);
 
 /** Block being called if the cancel button got touched.
  *
