@@ -12,7 +12,7 @@ Built in Objective-C for iOS 8.0 and above. ARC-enabled. For both iPhone and iPa
 
 ## Adding MKInputBoxView To Your Project
 
-### Cocoapods
+### CocoaPods
 
 CocoaPods is the recommended way to add MKInputBoxView to your project. Just add
 ```ruby
