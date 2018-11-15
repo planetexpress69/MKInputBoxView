@@ -154,4 +154,6 @@ typedef NS_ENUM(NSInteger, MKInputBoxType) {
  */
 @property (nonatomic, copy) UITextField *(^customise)(UITextField *);
 
+@property (nonatomic, assign) BOOL disableBlurEffect;
+
 @end

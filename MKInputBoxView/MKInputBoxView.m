@@ -191,29 +191,31 @@
     UIColor *messageLabelTextColor      = nil;
     UIColor *elementBackgroundColor     = nil;
     UIColor *buttonBackgroundColor      = nil;
-
-    UIBlurEffectStyle style = UIBlurEffectStyleLight;
-    if (self.blurEffectStyle) {
-        style = self.blurEffectStyle;
+    
+    if (!self.disableBlurEffect) {
+        UIBlurEffectStyle style = UIBlurEffectStyleLight;
+        if (self.blurEffectStyle) {
+            style = self.blurEffectStyle;
+        }
+        
+        switch (style) {
+            case UIBlurEffectStyleDark:
+                titleLabelTextColor     = [UIColor whiteColor];
+                messageLabelTextColor   = [UIColor whiteColor];
+                elementBackgroundColor  = [UIColor colorWithWhite:1.0f alpha: 0.07f];
+                buttonBackgroundColor   = [UIColor colorWithWhite:1.0f alpha: 0.07f];
+                break;
+            default:
+                titleLabelTextColor     = [UIColor blackColor];
+                messageLabelTextColor   = [UIColor blackColor];
+                elementBackgroundColor  = [UIColor colorWithWhite:1.0f alpha: 0.50f];
+                buttonBackgroundColor   = [UIColor colorWithWhite:1.0f alpha: 0.2f];
+                break;
+        }
+        
+        UIVisualEffect *effect  = [UIBlurEffect effectWithStyle:style];
+        self.visualEffectView   = [[UIVisualEffectView alloc]initWithEffect:effect];
     }
-
-    switch (style) {
-        case UIBlurEffectStyleDark:
-            titleLabelTextColor     = [UIColor whiteColor];
-            messageLabelTextColor   = [UIColor whiteColor];
-            elementBackgroundColor  = [UIColor colorWithWhite:1.0f alpha: 0.07f];
-            buttonBackgroundColor   = [UIColor colorWithWhite:1.0f alpha: 0.07f];
-            break;
-        default:
-            titleLabelTextColor     = [UIColor blackColor];
-            messageLabelTextColor   = [UIColor blackColor];
-            elementBackgroundColor  = [UIColor colorWithWhite:1.0f alpha: 0.50f];
-            buttonBackgroundColor   = [UIColor colorWithWhite:1.0f alpha: 0.2f];
-            break;
-    }
-
-    UIVisualEffect *effect  = [UIBlurEffect effectWithStyle:style];
-    self.visualEffectView   = [[UIVisualEffectView alloc]initWithEffect:effect];
 
     CGFloat padding         = 10.0f;
     CGFloat width           = self.actualBox.frame.size.width - padding * 2;
