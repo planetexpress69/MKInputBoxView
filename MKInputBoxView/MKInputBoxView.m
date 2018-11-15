@@ -186,34 +186,42 @@
 
     self.actualBox.layer.cornerRadius   = 4.0;
     self.actualBox.layer.masksToBounds  = true;
-
-    UIColor *titleLabelTextColor        = nil;
-    UIColor *messageLabelTextColor      = nil;
-    UIColor *elementBackgroundColor     = nil;
-    UIColor *buttonBackgroundColor      = nil;
-
-    UIBlurEffectStyle style = UIBlurEffectStyleLight;
-    if (self.blurEffectStyle) {
-        style = self.blurEffectStyle;
+    self.disableBlurEffect = YES;
+    
+    if (!self.disableBlurEffect) {
+        UIBlurEffectStyle style = UIBlurEffectStyleLight;
+        if (self.blurEffectStyle) {
+            style = self.blurEffectStyle;
+        }
+        
+        switch (style) {
+            case UIBlurEffectStyleDark:
+                self.titleLabelTextColor     = [UIColor whiteColor];
+                self.messageLabelTextColor   = [UIColor whiteColor];
+                self.elementBackgroundColor  = [UIColor colorWithWhite:1.0f alpha: 0.07f];
+                self.buttonBackgroundColor   = [UIColor colorWithWhite:1.0f alpha: 0.07f];
+                self.buttonLabelTextColor   = [UIColor whiteColor];
+                break;
+            default:
+                self.titleLabelTextColor     = [UIColor blackColor];
+                self.messageLabelTextColor   = [UIColor blackColor];
+                self.elementBackgroundColor  = [UIColor colorWithWhite:1.0f alpha: 0.50f];
+                self.buttonBackgroundColor   = [UIColor colorWithWhite:1.0f alpha: 0.2f];
+                self.buttonLabelTextColor   = [UIColor blackColor];
+                break;
+        }
+        
+        UIVisualEffect *effect  = [UIBlurEffect effectWithStyle:style];
+        self.visualEffectView   = [[UIVisualEffectView alloc]initWithEffect:effect];
+    } else {
+        self.titleLabelTextColor     = [UIColor whiteColor];
+        self.messageLabelTextColor   = [UIColor whiteColor];
+        self.elementBackgroundColor  = [UIColor whiteColor];
+        self.buttonBackgroundColor   = [UIColor blackColor];
+        self.buttonLabelTextColor   = [UIColor whiteColor];
+        self.contentBackgroundColor = [UIColor blackColor];
+        self.buttonBorderColor = [UIColor whiteColor];
     }
-
-    switch (style) {
-        case UIBlurEffectStyleDark:
-            titleLabelTextColor     = [UIColor whiteColor];
-            messageLabelTextColor   = [UIColor whiteColor];
-            elementBackgroundColor  = [UIColor colorWithWhite:1.0f alpha: 0.07f];
-            buttonBackgroundColor   = [UIColor colorWithWhite:1.0f alpha: 0.07f];
-            break;
-        default:
-            titleLabelTextColor     = [UIColor blackColor];
-            messageLabelTextColor   = [UIColor blackColor];
-            elementBackgroundColor  = [UIColor colorWithWhite:1.0f alpha: 0.50f];
-            buttonBackgroundColor   = [UIColor colorWithWhite:1.0f alpha: 0.2f];
-            break;
-    }
-
-    UIVisualEffect *effect  = [UIBlurEffect effectWithStyle:style];
-    self.visualEffectView   = [[UIVisualEffectView alloc]initWithEffect:effect];
 
     CGFloat padding         = 10.0f;
     CGFloat width           = self.actualBox.frame.size.width - padding * 2;
@@ -223,8 +231,8 @@
     titleLabel.font         = [UIFont boldSystemFontOfSize:17.0f];
     titleLabel.text         = self.title;
     titleLabel.textAlignment= NSTextAlignmentCenter;
-    titleLabel.textColor    = titleLabelTextColor;
-    [self.visualEffectView.contentView addSubview:titleLabel];
+    titleLabel.textColor    = self.titleLabelTextColor;
+    [self.contentView addSubview:titleLabel];
 
     UILabel *messageLabel   = [[UILabel alloc]initWithFrame:
                                CGRectMake(padding, padding + titleLabel.frame.size.height + 5, width, 31.5)];
@@ -232,9 +240,9 @@
     messageLabel.font       = [UIFont systemFontOfSize:13.0f];
     messageLabel.text       = self.message;
     messageLabel.textAlignment  = NSTextAlignmentCenter;
-    messageLabel.textColor  = messageLabelTextColor;
+    messageLabel.textColor  = self.messageLabelTextColor;
     [messageLabel sizeToFit];
-    [self.visualEffectView.contentView addSubview:messageLabel];
+    [self.contentView addSubview:messageLabel];
 
     switch (self.boxType) {
 
@@ -336,8 +344,8 @@
     for (UITextField *element in self.elements) {
         element.layer.borderColor   = [UIColor colorWithWhite:0.0f alpha:0.1f].CGColor;
         element.layer.borderWidth   = 0.5;
-        element.backgroundColor     = elementBackgroundColor;
-        [self.visualEffectView.contentView addSubview:element];
+        element.backgroundColor     = self.elementBackgroundColor;
+        [self.contentView addSubview:element];
     }
 
     CGFloat buttonHeight    = 40.0f;
@@ -347,30 +355,50 @@
     [cancelButton setTitle:self.cancelButtonText != nil ? self.cancelButtonText : @"Cancel" forState:UIControlStateNormal];
     [cancelButton addTarget:self action:@selector(cancelButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     cancelButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
-    [cancelButton setTitleColor:titleLabelTextColor forState: UIControlStateNormal];
+    [cancelButton setTitleColor:self.buttonLabelTextColor forState: UIControlStateNormal];
     [cancelButton setTitleColor:[UIColor grayColor] forState: UIControlStateHighlighted];
-    cancelButton.backgroundColor = buttonBackgroundColor;
+    cancelButton.backgroundColor = self.buttonBackgroundColor;
     cancelButton.layer.borderColor = [UIColor colorWithWhite: 0.0f alpha: 0.1f].CGColor;
     cancelButton.layer.borderWidth = 0.5;
-    [self.visualEffectView.contentView addSubview:cancelButton];
+    [self.contentView addSubview:cancelButton];
 
     UIButton *submitButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonWidth, self.actualBox.frame.size.height - buttonHeight, buttonWidth, buttonHeight)];
     [submitButton setTitle:self.submitButtonText != nil ? self.submitButtonText : @"OK" forState:UIControlStateNormal];
     [submitButton addTarget:self action:@selector(submitButtonTapped) forControlEvents: UIControlEventTouchUpInside];
     submitButton.titleLabel.font = [UIFont systemFontOfSize:16];
-    [submitButton setTitleColor:self.blurEffectStyle == UIBlurEffectStyleDark ? [UIColor whiteColor] : [UIColor blackColor] forState: UIControlStateNormal];
+    [submitButton setTitleColor:self.buttonLabelTextColor forState: UIControlStateNormal];
     [submitButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-    submitButton.backgroundColor = buttonBackgroundColor;
+    submitButton.backgroundColor = self.buttonBackgroundColor;
     submitButton.layer.borderColor = [UIColor colorWithWhite:0.0f alpha: 0.1f].CGColor;
     submitButton.layer.borderWidth = 0.5;
-    [self.visualEffectView.contentView addSubview:submitButton];
+    [self.contentView addSubview:submitButton];
+    
+    if (self.buttonBorderColor) {
+        CGFloat borderWidth = 1;
+        UIView *topBorder = [[UIView alloc] initWithFrame:CGRectMake(0, cancelButton.frame.origin.y, cancelButton.frame.size.width + submitButton.frame.size.width, borderWidth)];
+        topBorder.backgroundColor = self.buttonBorderColor;
+        [self.contentView addSubview:topBorder];
+        
+        UIView *centerBorder = [[UIView alloc] initWithFrame:CGRectMake(cancelButton.frame.size.width - borderWidth, 0, borderWidth, cancelButton.frame.size.height)];
+        centerBorder.backgroundColor = self.buttonBorderColor;
+        [cancelButton addSubview:centerBorder];
+    }
 
-    self.visualEffectView.frame = CGRectMake(0, 0, self.actualBox.frame.size.width, self.actualBox.frame.size.height + 45);
-    [self.actualBox addSubview:self.visualEffectView];
+    if (!self.disableBlurEffect) {
+        self.visualEffectView.frame = CGRectMake(0, 0, self.actualBox.frame.size.width, self.actualBox.frame.size.height + 45);
+        [self.actualBox addSubview:self.visualEffectView];
+    }
+    
+    if (self.contentBackgroundColor) {
+        self.contentView.backgroundColor = self.contentBackgroundColor;
+    }
+    
     self.actualBox.center = self.center;
 }
 
-
+- (UIView *)contentView {
+    return !self.disableBlurEffect ? self.visualEffectView.contentView : self.actualBox;
+}
 
 // -----------------------------------------------------------------------------
 #pragma mark - Handle device rotation

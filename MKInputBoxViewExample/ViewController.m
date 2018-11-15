@@ -45,10 +45,10 @@
         return textField;
     };
 
-    inputBoxView.onSubmit = ^(NSString *value1, NSString *value2) {
-        NSLog(@"user: %@", value1);
-        NSLog(@"pass: %@", value2);
-    };
+//    inputBoxView.onSubmit = ^(NSString *value1, NSString *value2) {
+//        NSLog(@"user: %@", value1);
+//        NSLog(@"pass: %@", value2);
+//    };
 
     inputBoxView.onCancel = ^{
         NSLog(@"Cancel!");
